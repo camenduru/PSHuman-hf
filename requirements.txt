@@ -7,6 +7,8 @@ gradio==5.7.1
 huggingface_hub==0.25.2
 imageio==2.36.0
 imageio-ffmpeg==0.5.1
+kornia==0.7.4
+kornia_rs==0.1.7
 mediapipe==0.10.18
 moviepy==1.0.3
 omegaconf==2.3.0
