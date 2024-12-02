@@ -10,26 +10,6 @@ import subprocess
 from glob import glob
 import requests
 
-# Ensure the required package is installed
-def install_dependencies():
-    try:
-        # Clone the repository
-        repo_url = "https://github.com/facebookresearch/pytorch3d.git"
-        repo_dir = "pytorch3d"
-        
-        if not os.path.exists(repo_dir):  # Only clone if the directory doesn't already exist
-            subprocess.check_call(["git", "clone", repo_url])
-        
-        # Install in editable mode
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "-e", repo_dir])
-        
-    except subprocess.CalledProcessError as e:
-        print(f"Error installing dependencies: {e}")
-        sys.exit(1)  # Exit the script if installation fails
-
-# Install dependencies at the start
-install_dependencies()
-
 def remove_background(input_url):
     # Create a temporary folder for downloaded and processed images
     temp_dir = tempfile.mkdtemp()
