@@ -96,7 +96,7 @@ def gradio_interface():
 
         output_gallery = gr.Gallery(label="Output Images")
 
-        submit_button.click(process_image, inputs=[input_url], outputs=[output_gallery])
+        submit_button.click(process_image, inputs=[input_image], outputs=[output_gallery])
 
     return app
 
