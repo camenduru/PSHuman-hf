@@ -91,7 +91,7 @@ def gradio_interface():
         gr.Markdown("# Background Removal and Inference Pipeline")
 
         with gr.Row():
-            input_url = gr.Textbox(label="Image URL", placeholder="Enter the URL of the image")
+            input_image = gr.Image(label="Image input", type="filepath")
             submit_button = gr.Button("Process")
 
         output_gallery = gr.Gallery(label="Output Images")
