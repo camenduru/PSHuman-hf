@@ -15,7 +15,7 @@ def remove_background(input_url):
     # Download the image from the URL
     image_path = os.path.join(temp_dir, 'input_image.png')
     try:
-        image = Image.open(requests.get(input_url, stream=True).raw)
+        image = Image.open(input_url)
         image.save(image_path)
     except Exception as e:
         shutil.rmtree(temp_dir)
