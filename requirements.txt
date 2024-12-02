@@ -1,6 +1,7 @@
-torch
-torchvision
-torchaudio
+torch==2.1.0 
+torchvision==0.16.0 
+torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu121
+gradio==5.7.1
 absl-py==2.1.0
 accelerate==1.1.1
 addict==2.4.0
