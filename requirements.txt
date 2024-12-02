@@ -181,10 +181,10 @@ stack-data==0.6.3
 starlette==0.41.2
 sympy==1.13.1
 tenacity==9.0.0
-tensorrt==10.6.0
-tensorrt-cu12==10.6.0
-tensorrt-cu12-bindings==10.6.0
-tensorrt-cu12-libs==10.6.0
+# tensorrt==10.6.0
+# tensorrt-cu12==10.6.0
+# tensorrt-cu12-bindings==10.6.0
+# tensorrt-cu12-libs==10.6.0
 termcolor==2.5.0
 threadpoolctl==3.5.0
 tifffile==2024.9.20
