@@ -6,6 +6,7 @@ from PIL import Image
 from rembg import remove
 import subprocess
 from glob import glob
+import requests
 
 def remove_background(input_url):
     # Create a temporary folder for downloaded and processed images
