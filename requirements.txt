@@ -151,7 +151,6 @@ python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 python-multipart==0.0.12
 # pytorch3d @ git+https://github.com/facebookresearch/pytorch3d.git@75ebeeaea0908c5527e7b1e305fbc7681382db47
-https://takizuki.github.io/pytorch3d/pytorch3d-0.7.3-cp39-cp39-linux_x86_64.whl
 pytz==2024.2
 PyYAML==6.0.2
 pyzmq==26.2.0
