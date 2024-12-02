@@ -19,6 +19,7 @@ opencv-python-headless==4.10.0.84
 peft==0.13.2
 rembg==2.0.59
 transformers==4.46.2
+trimesh==4.5.2
 triton==2.1.0
 xformers==0.0.22.post7
 yacs==0.1.8
