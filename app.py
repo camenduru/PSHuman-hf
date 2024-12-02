@@ -19,7 +19,7 @@ def install_dependencies():
         sys.exit(1)  # Exit the script if installation fails
 
 # Install dependencies at the start
-install_dependencies()
+#install_dependencies()
 
 def remove_background(input_url):
     # Create a temporary folder for downloaded and processed images
