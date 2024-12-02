@@ -105,9 +105,9 @@ networkx==3.2.1
 numba==0.60.0
 numpy==1.26.3
 git+https://github.com/NVlabs/nvdiffrast.git@729261dc64c4241ea36efda84fbf532cc8b425b8
-nvidia-cuda-runtime-cu12==12.6.77
-nvidia-pyindex==1.0.9
-nvidia-tensorrt==99.0.0
+# nvidia-cuda-runtime-cu12==12.6.77
+# nvidia-pyindex==1.0.9
+# nvidia-tensorrt==99.0.0
 omegaconf==2.3.0
 onnxruntime==1.20.0
 onnxruntime-gpu==1.20.0
