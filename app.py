@@ -13,7 +13,7 @@ import requests
 # Ensure the required package is installed
 def install_dependencies():
     try:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "git+https://github.com/facebookresearch/pytorch3d.git@75ebeeaea0908c5527e7b1e305fbc7681382db47"])
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "git+https://github.com/facebookresearch/pytorch3d.git@stable"])
     except subprocess.CalledProcessError as e:
         print(f"Error installing dependencies: {e}")
         sys.exit(1)  # Exit the script if installation fails
