@@ -194,7 +194,7 @@ threadpoolctl==3.5.0
 tifffile==2024.9.20
 tokenizers==0.20.3
 tomlkit==0.12.0
---no-use-pep517 torch-scatter==2.1.2
+torch-scatter==2.1.2
 tornado==6.4.2
 tqdm==4.67.0
 traitlets==5.14.3
