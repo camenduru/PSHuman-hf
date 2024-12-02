@@ -66,17 +66,19 @@ def run_inference(temp_dir):
 
 def process_image(input_url):
     # Remove background
-    removed_bg_path, temp_dir = remove_background(input_url)
+    result = remove_background(input_url)
+    
+    if isinstance(result, str) and result.startswith("Error"):
+        raise gr.Error(f"{result}")  # Return the error message if something went wrong
 
-    if isinstance(removed_bg_path, str) and removed_bg_path.startswith("Error"):
-        return removed_bg_path
+    removed_bg_path, temp_dir = result  # Unpack only if successful
 
     # Run inference
     output_images = run_inference(temp_dir)
 
     if isinstance(output_images, str) and output_images.startswith("Error"):
         shutil.rmtree(temp_dir)
-        return output_images
+        raise gr.Error(f"{output_images}")   # Return the error message if inference failed
 
     # Prepare outputs for display
     results = []
