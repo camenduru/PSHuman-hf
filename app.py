@@ -10,16 +10,24 @@ import subprocess
 from glob import glob
 import requests
 
-# Ensure the required package is installed
-def install_dependencies():
-    try:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "git+https://github.com/facebookresearch/pytorch3d.git@stable"])
-    except subprocess.CalledProcessError as e:
-        print(f"Error installing dependencies: {e}")
-        sys.exit(1)  # Exit the script if installation fails
 
-# Install dependencies at the start
-#install_dependencies()
+def install_torch_scatter():
+    try:
+        subprocess.check_call([
+            sys.executable, 
+            "-m", 
+            "pip", 
+            "install", 
+            "--no-build-isolation", 
+            "torch-scatter==2.1.2"
+        ])
+        print("torch-scatter installed successfully.")
+    except subprocess.CalledProcessError as e:
+        print("Error occurred while installing torch-scatter:", e)
+        sys.exit(1)
+
+# Call the function during your app's initialization
+install_torch_scatter()
 
 def remove_background(input_url):
     # Create a temporary folder for downloaded and processed images
