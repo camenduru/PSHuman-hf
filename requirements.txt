@@ -152,7 +152,8 @@ python-dotenv==1.0.1
 python-multipart==0.0.12
 #git+https://github.com/facebookresearch/pytorch3d.git@75ebeeaea0908c5527e7b1e305fbc7681382db47
 --extra-index-url https://miropsota.github.io/torch_packages_builder 
-pytorch3d==0.7.8+pt2.5.1cu121
+#https://github.com/MiroPsota/torch_packages_builder/releases/download/pytorch3d-0.7.8/pytorch3d-0.7.8%2Bpt2.1.0cu121-cp310-cp310-linux_x86_64.whl
+pytorch3d==0.7.8+pt2.1.0cu121
 pytz==2024.2
 PyYAML==6.0.2
 pyzmq==26.2.0
