@@ -94,7 +94,7 @@ def gradio_interface():
             input_url = gr.Textbox(label="Image URL", placeholder="Enter the URL of the image")
             submit_button = gr.Button("Process")
 
-        output_gallery = gr.Gallery(label="Output Images").style(grid=[2], height="300px")
+        output_gallery = gr.Gallery(label="Output Images")
 
         submit_button.click(process_image, inputs=[input_url], outputs=[output_gallery])
 
