@@ -106,6 +106,7 @@ def process_image(input_url):
 
     
     shutil.rmtree(temp_dir)  # Cleanup temporary folder
+    print(output_video)
     return output_video[0]
 
 def gradio_interface():
