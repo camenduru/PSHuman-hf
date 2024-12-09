@@ -125,13 +125,17 @@ def gradio_interface():
         gr.Markdown("# PSHuman: Photorealistic Single-image 3D Human Reconstruction using Cross-Scale Multiview Diffusion and Explicit Remeshing")
 
         with gr.Row():
-            input_image = gr.Image(label="Image input", type="filepath")
+            input_image = gr.Image(
+                label="Image input", 
+                type="filepath",
+                height=240
+            )
             with gr.Column():
                 submit_button = gr.Button("Process")
                 gr.Examples(
                     examples = examples_folder,
                     inputs = [input_image],
-                    examples_per_page = 9
+                    examples_per_page = 6
                 )
 
         output_video= gr.Video(label="Output Video")
