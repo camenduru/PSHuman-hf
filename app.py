@@ -130,7 +130,8 @@ def gradio_interface():
                 submit_button = gr.Button("Process")
                 gr.Examples(
                     examples = examples_folder,
-                    inputs = [input_image]
+                    inputs = [input_image],
+                    examples_per_page = 9
                 )
 
         output_video= gr.Video(label="Output Video")
