@@ -44,8 +44,7 @@ def remove_background(input_url):
     image_path = os.path.join(temp_dir, 'input_image.png')
     try:
         image = Image.open(input_url)
-        flipped_image = image.transpose(Image.FLIP_LEFT_RIGHT)  # Mirror-flip the image
-        flipped_image.save(image_path)
+        image.save(image_path)
     except Exception as e:
         shutil.rmtree(temp_dir)
         return f"Error downloading or saving the image: {str(e)}"
