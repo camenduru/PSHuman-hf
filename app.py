@@ -54,7 +54,7 @@ def remove_background(input_url):
 
     return removed_bg_path, temp_dir
     
-def run_inference(temp_dir):
+def run_inference(temp_dir, removed_bg_path):
     # Define the inference configuration
     inference_config = "configs/inference-768-6view.yaml"
     pretrained_model = "./ckpts"
@@ -80,9 +80,11 @@ def run_inference(temp_dir):
             check=True
         )
 
-        # Collect the output images
-        output_images = glob(os.path.join("out/input_image", "*.mp4"))
-        return output_images
+        
+        # Retrieve the file name
+        removed_bg_file_name = os.path.basename(removed_bg_path)
+        output_videos = glob(os.path.join(f"out/{removed_bg_file_name}", "*.mp4"))
+        return output_videos
     except subprocess.CalledProcessError as e:
         return f"Error during inference: {str(e)}"
 
@@ -96,7 +98,7 @@ def process_image(input_url):
     removed_bg_path, temp_dir = result  # Unpack only if successful
 
     # Run inference
-    output_video = run_inference(temp_dir)
+    output_video = run_inference(temp_dir, removed_bg_path)
 
     if isinstance(output_video, str) and output_video.startswith("Error"):
         shutil.rmtree(temp_dir)
