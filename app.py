@@ -33,6 +33,7 @@ def remove_background(input_url):
         shutil.rmtree(temp_dir)
         return f"Error downloading or saving the image: {str(e)}"
 
+    """
     # Run background removal
     try:
         removed_bg_path = os.path.join(temp_dir, 'output_image_rmbg.png')
@@ -44,7 +45,9 @@ def remove_background(input_url):
         return f"Error removing background: {str(e)}"
 
     return removed_bg_path, temp_dir
-
+    """
+    return image_path, temp_dir
+    
 def run_inference(temp_dir):
     # Define the inference configuration
     inference_config = "configs/inference-768-6view.yaml"
@@ -98,7 +101,7 @@ def process_image(input_url):
     for img_path in output_images:
         results.append((img_path, img_path))
 
-    shutil.rmtree(temp_dir)  # Cleanup temporary folder
+    #shutil.rmtree(temp_dir)  # Cleanup temporary folder
     return results
 
 def gradio_interface():
