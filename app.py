@@ -123,22 +123,23 @@ def process_image(input_url):
 def gradio_interface():
     with gr.Blocks() as app:
         gr.Markdown("# PSHuman: Photorealistic Single-image 3D Human Reconstruction using Cross-Scale Multiview Diffusion and Explicit Remeshing")
-
-        with gr.Column():
-            input_image = gr.Image(
-                label="Image input", 
-                type="filepath",
-                height=240
-            )
+        with gr.Row():
             
-            submit_button = gr.Button("Process")
-            gr.Examples(
+            with gr.Column(scale=1):
+                input_image = gr.Image(
+                    label="Image input", 
+                    type="filepath",
+                    height=240
+                )
+            
+                submit_button = gr.Button("Process")
+                gr.Examples(
                     examples = examples_folder,
                     inputs = [input_image],
                     examples_per_page = 6
-            )
+                )
 
-            output_video= gr.Video(label="Output Video")
+            output_video= gr.Video(label="Output Video", scale=3)
 
         submit_button.click(process_image, inputs=[input_image], outputs=[output_video])
 
