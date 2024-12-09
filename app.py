@@ -152,6 +152,7 @@ def gradio_interface():
                 input_image = gr.Image(
                     label="Image input", 
                     type="filepath",
+                    image_mode="RGBA",
                     height=240
                 )
 
