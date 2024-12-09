@@ -36,7 +36,7 @@ images_examples = [
     if os.path.isfile(os.path.join(examples_folder, file))
 ]
 
-def remove_background(input_url):
+def remove_background(input_url, remove_bg):
     # Create a temporary folder for downloaded and processed images
     temp_dir = tempfile.mkdtemp()
 
@@ -49,13 +49,17 @@ def remove_background(input_url):
         shutil.rmtree(temp_dir)
         return f"Error downloading or saving the image: {str(e)}"
 
+    
     # Run background removal
     try:
         unique_id = str(uuid.uuid4())
         removed_bg_path = os.path.join(temp_dir, f'output_image_rmbg_{unique_id}.png')
         img = Image.open(image_path)
-        result = remove(img)
-        result.save(removed_bg_path)
+        if remove_bg:
+             result = remove(img)
+             result.save(removed_bg_path)
+        else:
+            img.save(removed_bg_path)
 
         # Remove the input image to keep the temp directory clean
         os.remove(image_path)
@@ -99,9 +103,9 @@ def run_inference(temp_dir, removed_bg_path):
     except subprocess.CalledProcessError as e:
         return f"Error during inference: {str(e)}"
 
-def process_image(input_url):
+def process_image(input_url, remove_bg):
     # Remove background
-    result = remove_background(input_url)
+    result = remove_background(input_url, remove_bg)
     
     if isinstance(result, str) and result.startswith("Error"):
         raise gr.Error(f"{result}")  # Return the error message if something went wrong
@@ -150,6 +154,11 @@ def gradio_interface():
                     type="filepath",
                     height=240
                 )
+
+                remove_bg = gr.Checkbox(
+                    label="Need to remove BG ?",
+                    value=False
+                )
             
                 submit_button = gr.Button("Process")
                 gr.Examples(
@@ -160,7 +169,7 @@ def gradio_interface():
 
             output_video= gr.Video(label="Output Video", scale=4)
 
-        submit_button.click(process_image, inputs=[input_image], outputs=[output_video])
+        submit_button.click(process_image, inputs=[input_image, remove_bg], outputs=[output_video])
 
     return app
 
