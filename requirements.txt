@@ -103,6 +103,7 @@ mypy-extensions==1.0.0
 nbformat==5.10.4
 nest-asyncio==1.6.0
 networkx==3.2.1
+ninja
 numba==0.60.0
 numpy==1.26.3
 git+https://github.com/NVlabs/nvdiffrast.git@729261dc64c4241ea36efda84fbf532cc8b425b8
