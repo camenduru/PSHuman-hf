@@ -81,7 +81,7 @@ def run_inference(temp_dir):
         )
 
         # Collect the output images
-        output_images = glob(os.path.join("mv_results", "*.mp4"))
+        output_images = glob(os.path.join("out/input_image", "*.mp4"))
         return output_images
     except subprocess.CalledProcessError as e:
         return f"Error during inference: {str(e)}"
@@ -104,7 +104,7 @@ def process_image(input_url):
 
     
     shutil.rmtree(temp_dir)  # Cleanup temporary folder
-    return output_video
+    return output_video[0]
 
 def gradio_interface():
     with gr.Blocks() as app:
