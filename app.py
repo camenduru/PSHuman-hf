@@ -81,8 +81,8 @@ def run_inference(temp_dir, removed_bg_path):
         )
 
         
-        # Retrieve the file name
-        removed_bg_file_name = os.path.basename(removed_bg_path)
+        # Retrieve the file name without the extension
+        removed_bg_file_name = os.path.splitext(os.path.basename(removed_bg_path))[0]
         output_videos = glob(os.path.join(f"out/{removed_bg_file_name}", "*.mp4"))
         return output_videos
     except subprocess.CalledProcessError as e:
