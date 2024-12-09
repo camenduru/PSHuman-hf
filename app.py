@@ -124,9 +124,28 @@ def process_image(input_url):
 def gradio_interface():
     with gr.Blocks() as app:
         gr.Markdown("# PSHuman: Photorealistic Single-image 3D Human Reconstruction using Cross-Scale Multiview Diffusion and Explicit Remeshing")
+        gr.HTML("""
+        <div style="display:flex;column-gap:4px;">
+            <a href="https://github.com/pengHTYX/PSHuman">
+                <img src='https://img.shields.io/badge/GitHub-Repo-blue'>
+            </a> 
+            <a href="https://penghtyx.github.io/PSHuman/">
+                <img src='https://img.shields.io/badge/Project-Page-green'>
+            </a>
+			<a href="https://arxiv.org/pdf/2409.10141">
+                <img src='https://img.shields.io/badge/ArXiv-Paper-red'>
+            </a>
+            <a href="https://huggingface.co/spaces/fffiloni/PSHuman?duplicate=true">
+				<img src="https://huggingface.co/datasets/huggingface/badges/resolve/main/duplicate-this-space-sm.svg" alt="Duplicate this Space">
+			</a>
+			<a href="https://huggingface.co/fffiloni">
+				<img src="https://huggingface.co/datasets/huggingface/badges/resolve/main/follow-me-on-HF-sm-dark.svg" alt="Follow me on HF">
+			</a>
+        </div>
+        """)
         with gr.Row():
             
-            with gr.Column(scale=1):
+            with gr.Column(scale=2):
                 input_image = gr.Image(
                     label="Image input", 
                     type="filepath",
@@ -137,7 +156,7 @@ def gradio_interface():
                 gr.Examples(
                     examples = examples_folder,
                     inputs = [input_image],
-                    examples_per_page = 6
+                    examples_per_page = 4
                 )
 
             output_video= gr.Video(label="Output Video", scale=3)
@@ -148,4 +167,4 @@ def gradio_interface():
 
 # Launch the Gradio app
 app = gradio_interface()
-app.launch()
+app.launch(show_api=False, show_error=True)
