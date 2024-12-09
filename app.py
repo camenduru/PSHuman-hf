@@ -6,6 +6,7 @@ import gradio as gr
 from PIL import Image
 from rembg import remove
 import sys
+import uuid
 import subprocess
 from glob import glob
 import requests
@@ -25,6 +26,15 @@ snapshot_download(
     local_dir = "./smpl_related"  
 )
 
+# Folder containing example images
+examples_folder = "examples"
+
+# Retrieve all file paths in the folder
+images_examples = [
+    os.path.join(examples_folder, file)
+    for file in os.listdir(examples_folder)
+    if os.path.isfile(os.path.join(examples_folder, file))
+]
 
 def remove_background(input_url):
     # Create a temporary folder for downloaded and processed images
@@ -41,7 +51,8 @@ def remove_background(input_url):
 
     # Run background removal
     try:
-        removed_bg_path = os.path.join(temp_dir, 'output_image_rmbg.png')
+        unique_id = str(uuid.uuid4())
+        removed_bg_path = os.path.join(temp_dir, f'output_image_rmbg_{unique_id}.png')
         img = Image.open(image_path)
         result = remove(img)
         result.save(removed_bg_path)
@@ -111,11 +122,16 @@ def process_image(input_url):
 
 def gradio_interface():
     with gr.Blocks() as app:
-        gr.Markdown("# Background Removal and Inference Pipeline")
+        gr.Markdown("# PSHuman: Photorealistic Single-image 3D Human Reconstruction using Cross-Scale Multiview Diffusion and Explicit Remeshing")
 
         with gr.Row():
             input_image = gr.Image(label="Image input", type="filepath")
-            submit_button = gr.Button("Process")
+            with gr.Column():
+                submit_button = gr.Button("Process")
+                gr.Examples(
+                    examples = examples_folder,
+                    inputs = [input_images]
+                )
 
         output_video= gr.Video(label="Output Video")
 
