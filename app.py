@@ -158,7 +158,7 @@ def gradio_interface():
                     examples_per_page = 4
                 )
 
-            output_video= gr.Video(label="Output Video", scale=3)
+            output_video= gr.Video(label="Output Video", scale=4)
 
         submit_button.click(process_image, inputs=[input_image], outputs=[output_video])
 
