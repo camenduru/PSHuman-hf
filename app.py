@@ -9,6 +9,16 @@ import sys
 import subprocess
 from glob import glob
 import requests
+from huggingface_hub import snapshot_download
+
+# Download models
+os.makedirs("ckpts", exist_ok=True)
+
+snapshot_download(
+    repo_id = "pengHTYX/PSHuman_Unclip_768_6views",
+    local_dir = "./ckpts"  
+)
+
 
 def remove_background(input_url):
     # Create a temporary folder for downloaded and processed images
@@ -38,7 +48,7 @@ def remove_background(input_url):
 def run_inference(temp_dir):
     # Define the inference configuration
     inference_config = "configs/inference-768-6view.yaml"
-    pretrained_model = "pengHTYX/PSHuman_Unclip_768_6views"
+    pretrained_model = "./ckpts"
     crop_size = 740
     seed = 600
     num_views = 7
