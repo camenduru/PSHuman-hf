@@ -117,7 +117,7 @@ def process_image(input_url, remove_bg):
 
     if isinstance(output_video, str) and output_video.startswith("Error"):
         shutil.rmtree(temp_dir)
-        raise gr.Error(f"{output_images}")   # Return the error message if inference failed
+        raise gr.Error(f"{output_video}")   # Return the error message if inference failed
 
     
     shutil.rmtree(temp_dir)  # Cleanup temporary folder
