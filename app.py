@@ -1,7 +1,5 @@
 import torch
 import os
-import tarfile
-import requests
 import shutil
 import tempfile
 import gradio as gr
@@ -13,53 +11,18 @@ from glob import glob
 import requests
 from huggingface_hub import snapshot_download
 
-# Define the URL and destination paths
-onedrive_url = "https://hkustconnect-my.sharepoint.com/:u:/g/personal/plibp_connect_ust_hk/EZQphP-2y5BGhEIe8jb03i4BIcqiJ2mUW2JmGC5s0VKOdw?e=qVzBBD"
-destination_tar = "smpl_related.tar.gz"
-destination_folder = "smpl_related"
-
-# Download the file
-def download_file(url, destination):
-    print(f"Downloading {url} to {destination}...")
-    response = requests.get(url, stream=True)
-    if response.status_code == 200:
-        with open(destination, 'wb') as f:
-            f.write(response.content)
-        print(f"Downloaded file to {destination}")
-    else:
-        raise Exception(f"Failed to download file. Status code: {response.status_code}")
-
-# Extract the tar.gz file
-def extract_tar(file_path, extract_to):
-    print(f"Extracting {file_path} to {extract_to}...")
-    with tarfile.open(file_path, "r:gz") as tar:
-        tar.extractall(path=extract_to)
-    print(f"Extraction completed.")
-
-# Ensure the folder exists
-if not os.path.exists(destination_folder):
-    try:
-        # Step 1: Download the tar.gz file
-        download_file(onedrive_url, destination_tar)
-
-        # Step 2: Extract the tar.gz file
-        extract_tar(destination_tar, "./")
-
-        # Step 3: Clean up the tar.gz file after extraction
-        os.remove(destination_tar)
-        print(f"Cleaned up the tar file: {destination_tar}")
-
-    except Exception as e:
-        print(f"An error occurred: {e}")
-else:
-    print(f"Folder {destination_folder} already exists. Skipping download and extraction.")
-
 # Download models
 os.makedirs("ckpts", exist_ok=True)
 
 snapshot_download(
     repo_id = "pengHTYX/PSHuman_Unclip_768_6views",
     local_dir = "./ckpts"  
+)
+
+os.makedirs("smpl_related", exist_ok=True)
+snapshot_download(
+    repo_id = "fffiloni/PSHuman-SMPL-related",
+    local_dir = "./smpl_related"  
 )
 
 
