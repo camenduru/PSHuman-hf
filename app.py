@@ -10,25 +10,6 @@ import subprocess
 from glob import glob
 import requests
 
-
-def install_torch_scatter():
-    try:
-        subprocess.check_call([
-            sys.executable, 
-            "-m", 
-            "pip", 
-            "install", 
-            "--no-build-isolation", 
-            "torch-scatter==2.1.2"
-        ])
-        print("torch-scatter installed successfully.")
-    except subprocess.CalledProcessError as e:
-        print("Error occurred while installing torch-scatter:", e)
-        sys.exit(1)
-
-# Call the function during your app's initialization
-install_torch_scatter()
-
 def remove_background(input_url):
     # Create a temporary folder for downloaded and processed images
     temp_dir = tempfile.mkdtemp()
