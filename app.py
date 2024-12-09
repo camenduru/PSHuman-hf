@@ -33,26 +33,26 @@ def remove_background(input_url):
     # Download the image from the URL
     image_path = os.path.join(temp_dir, 'input_image.png')
     try:
-        image = Image.open(input_url).convert("RGBA")
+        image = Image.open(input_url)
         image.save(image_path)
     except Exception as e:
         shutil.rmtree(temp_dir)
         return f"Error downloading or saving the image: {str(e)}"
 
-    """
     # Run background removal
     try:
         removed_bg_path = os.path.join(temp_dir, 'output_image_rmbg.png')
         img = Image.open(image_path)
         result = remove(img)
         result.save(removed_bg_path)
+
+        # Remove the input image to keep the temp directory clean
+        os.remove(image_path)
     except Exception as e:
         shutil.rmtree(temp_dir)
         return f"Error removing background: {str(e)}"
 
     return removed_bg_path, temp_dir
-    """
-    return image_path, temp_dir
     
 def run_inference(temp_dir):
     # Define the inference configuration
