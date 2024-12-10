@@ -54,7 +54,7 @@ def remove_background(input_url):
         if image.width > max_width:
             aspect_ratio = image.height / image.width
             new_height = int(max_width * aspect_ratio)
-            image = image.resize((max_width, new_height), Image.ANTIALIAS)
+            image = image.resize((max_width, new_height), Image.LANCZOS)
 
         # Save the resized image
         image.save(image_path)
