@@ -159,27 +159,28 @@ def gradio_interface():
 			</a>
         </div>
         """)
-        with gr.Row():
-            
-            with gr.Column(scale=2):
-                input_image = gr.Image(
-                    label="Image input", 
-                    type="pil",
-                    image_mode="RGBA",
-                    height=240
-                )
-
-                remove_bg = gr.Checkbox(label="Need to remove BG ?", value=False)
-            
-                submit_button = gr.Button("Process")
+        with gr.Group()
+            with gr.Row():  
+                with gr.Column(scale=2):
+                    
+                    input_image = gr.Image(
+                        label="Image input", 
+                        type="pil",
+                        image_mode="RGBA",
+                        height=240
+                    )
+    
+                    remove_bg = gr.Checkbox(label="Need to remove BG ?", value=False)
                 
-                gr.Examples(
-                    examples = examples_folder,
-                    inputs = [input_image],
-                    examples_per_page = 4
-                )
+                    submit_button = gr.Button("Process")
+    
+                output_video= gr.Video(label="Output Video", scale=4)
 
-            output_video= gr.Video(label="Output Video", scale=4)
+        gr.Examples(
+            examples = examples_folder,
+            inputs = [input_image],
+            examples_per_page = 11
+        )
 
         submit_button.click(process_image, inputs=[input_image, remove_bg], outputs=[output_video])
 
