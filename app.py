@@ -44,6 +44,19 @@ def remove_background(input_url):
     image_path = os.path.join(temp_dir, 'input_image.png')
     try:
         image = Image.open(input_url)
+
+        # Ensure the image has an alpha channel
+        if image.mode != 'RGBA':
+            image = image.convert('RGBA')
+
+        # Resize the image to a max width of 512 pixels while maintaining aspect ratio
+        max_width = 512
+        if image.width > max_width:
+            aspect_ratio = image.height / image.width
+            new_height = int(max_width * aspect_ratio)
+            image = image.resize((max_width, new_height), Image.ANTIALIAS)
+
+        # Save the resized image
         image.save(image_path)
     except Exception as e:
         shutil.rmtree(temp_dir)
