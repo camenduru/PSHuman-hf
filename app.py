@@ -137,8 +137,18 @@ def process_image(input_pil, remove_bg):
     torch.cuda.empty_cache()
     return output_video[0]
 
+css="""
+div#col-container{
+    margin: 0 auto;
+    max-width: 982px;
+}
+div#video-out-elm{
+    height: 323px;
+}
+"""
 def gradio_interface():
-    with gr.Blocks() as app:
+    with gr.Blocks(css=css) as app:
+        with gr.Column(elem_id="col-container"):
         gr.Markdown("# PSHuman: Photorealistic Single-image 3D Human Reconstruction using Cross-Scale Multiview Diffusion and Explicit Remeshing")
         gr.HTML("""
         <div style="display:flex;column-gap:4px;">
@@ -174,7 +184,7 @@ def gradio_interface():
                 
                     submit_button = gr.Button("Process")
     
-                output_video= gr.Video(label="Output Video", scale=4)
+                output_video= gr.Video(label="Output Video", scale=4, elem_id="video-out-elm")
 
         gr.Examples(
             examples = examples_folder,
