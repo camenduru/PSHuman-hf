@@ -116,6 +116,9 @@ def run_inference(temp_dir, removed_bg_path):
         return f"Error during inference: {str(e)}"
 
 def process_image(input_url):
+
+    torch.cuda.empty_cache()
+    
     # Remove background
     result = remove_background(input_url)
     
@@ -134,6 +137,7 @@ def process_image(input_url):
     
     shutil.rmtree(temp_dir)  # Cleanup temporary folder
     print(output_video)
+    torch.cuda.empty_cache()
     return output_video[0]
 
 def gradio_interface():
