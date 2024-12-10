@@ -37,49 +37,44 @@ images_examples = [
 ]
 
 def remove_background(input_url):
+    remove_bg = True
     # Create a temporary folder for downloaded and processed images
     temp_dir = tempfile.mkdtemp()
 
-    # Download the image from the URL
     image_path = os.path.join(temp_dir, 'input_image.png')
+    unique_id = str(uuid.uuid4())
+    removed_bg_path = os.path.join(temp_dir, f'output_image_rmbg_{unique_id}.png')
+    
     try:
-        image = Image.open(input_url)
-
-        # Ensure the image has an alpha channel
-        if image.mode != 'RGBA':
-            image = image.convert('RGBA')
-
-        # Resize the image to a max width of 512 pixels while maintaining aspect ratio
-        max_width = 512
-        if image.width > max_width:
-            aspect_ratio = image.height / image.width
-            new_height = int(max_width * aspect_ratio)
-            image = image.resize((max_width, new_height), Image.LANCZOS)
-
+        # Check if input_url is already a PIL Image
+        if isinstance(input_url, Image.Image):
+            image = input_url
+        else:
+            # Otherwise, assume it's a file path and open it
+            image = Image.open(input_url)
+        
         # Save the resized image
         image.save(image_path)
     except Exception as e:
         shutil.rmtree(temp_dir)
-        return f"Error downloading or saving the image: {str(e)}"
+        raise gr.Error(f"Error downloading or saving the image: {str(e)}")
 
-    
-    # Run background removal
-    try:
-        unique_id = str(uuid.uuid4())
-        removed_bg_path = os.path.join(temp_dir, f'output_image_rmbg_{unique_id}.png')
-        img = Image.open(image_path)
-        
-        result = remove(img)
-        result.save(removed_bg_path)
-        
+    if remove_bg is True:
+        # Run background removal
+        try:            
+            img = Image.open(image_path)    
+            result = remove(img)
+            result.save(removed_bg_path)
 
-        # Remove the input image to keep the temp directory clean
-        os.remove(image_path)
-    except Exception as e:
-        shutil.rmtree(temp_dir)
-        return f"Error removing background: {str(e)}"
+            # Remove the input image to keep the temp directory clean
+            os.remove(image_path)
+        except Exception as e:
+            shutil.rmtree(temp_dir)
+            raise gr.Error(f"Error removing background: {str(e)}")
 
-    return removed_bg_path, temp_dir
+        return removed_bg_path, temp_dir
+    else: 
+        return image_path, temp_dir
     
 def run_inference(temp_dir, removed_bg_path):
     # Define the inference configuration
@@ -167,7 +162,8 @@ def gradio_interface():
             with gr.Column(scale=2):
                 input_image = gr.Image(
                     label="Image input", 
-                    type="filepath",
+                    type="pil",
+                    image_mode="RGBA",
                     height=240
                 )
             
