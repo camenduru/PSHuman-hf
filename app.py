@@ -149,48 +149,48 @@ div#video-out-elm{
 def gradio_interface():
     with gr.Blocks(css=css) as app:
         with gr.Column(elem_id="col-container"):
-        gr.Markdown("# PSHuman: Photorealistic Single-image 3D Human Reconstruction using Cross-Scale Multiview Diffusion and Explicit Remeshing")
-        gr.HTML("""
-        <div style="display:flex;column-gap:4px;">
-            <a href="https://github.com/pengHTYX/PSHuman">
-                <img src='https://img.shields.io/badge/GitHub-Repo-blue'>
-            </a> 
-            <a href="https://penghtyx.github.io/PSHuman/">
-                <img src='https://img.shields.io/badge/Project-Page-green'>
-            </a>
-			<a href="https://arxiv.org/pdf/2409.10141">
-                <img src='https://img.shields.io/badge/ArXiv-Paper-red'>
-            </a>
-            <a href="https://huggingface.co/spaces/fffiloni/PSHuman?duplicate=true">
-				<img src="https://huggingface.co/datasets/huggingface/badges/resolve/main/duplicate-this-space-sm.svg" alt="Duplicate this Space">
-			</a>
-			<a href="https://huggingface.co/fffiloni">
-				<img src="https://huggingface.co/datasets/huggingface/badges/resolve/main/follow-me-on-HF-sm-dark.svg" alt="Follow me on HF">
-			</a>
-        </div>
-        """)
-        with gr.Group():
-            with gr.Row():  
-                with gr.Column(scale=2):
+            gr.Markdown("# PSHuman: Photorealistic Single-image 3D Human Reconstruction using Cross-Scale Multiview Diffusion and Explicit Remeshing")
+            gr.HTML("""
+            <div style="display:flex;column-gap:4px;">
+                <a href="https://github.com/pengHTYX/PSHuman">
+                    <img src='https://img.shields.io/badge/GitHub-Repo-blue'>
+                </a> 
+                <a href="https://penghtyx.github.io/PSHuman/">
+                    <img src='https://img.shields.io/badge/Project-Page-green'>
+                </a>
+    			<a href="https://arxiv.org/pdf/2409.10141">
+                    <img src='https://img.shields.io/badge/ArXiv-Paper-red'>
+                </a>
+                <a href="https://huggingface.co/spaces/fffiloni/PSHuman?duplicate=true">
+    				<img src="https://huggingface.co/datasets/huggingface/badges/resolve/main/duplicate-this-space-sm.svg" alt="Duplicate this Space">
+    			</a>
+    			<a href="https://huggingface.co/fffiloni">
+    				<img src="https://huggingface.co/datasets/huggingface/badges/resolve/main/follow-me-on-HF-sm-dark.svg" alt="Follow me on HF">
+    			</a>
+            </div>
+            """)
+            with gr.Group():
+                with gr.Row():  
+                    with gr.Column(scale=2):
+                        
+                        input_image = gr.Image(
+                            label="Image input", 
+                            type="pil",
+                            image_mode="RGBA",
+                            height=240
+                        )
+        
+                        remove_bg = gr.Checkbox(label="Need to remove BG ?", value=False)
                     
-                    input_image = gr.Image(
-                        label="Image input", 
-                        type="pil",
-                        image_mode="RGBA",
-                        height=240
-                    )
+                        submit_button = gr.Button("Process")
+        
+                    output_video= gr.Video(label="Output Video", scale=4, elem_id="video-out-elm")
     
-                    remove_bg = gr.Checkbox(label="Need to remove BG ?", value=False)
-                
-                    submit_button = gr.Button("Process")
-    
-                output_video= gr.Video(label="Output Video", scale=4, elem_id="video-out-elm")
-
-        gr.Examples(
-            examples = examples_folder,
-            inputs = [input_image],
-            examples_per_page = 11
-        )
+            gr.Examples(
+                examples = examples_folder,
+                inputs = [input_image],
+                examples_per_page = 11
+            )
 
         submit_button.click(process_image, inputs=[input_image, remove_bg], outputs=[output_video])
 
