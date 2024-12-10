@@ -36,22 +36,23 @@ images_examples = [
     if os.path.isfile(os.path.join(examples_folder, file))
 ]
 
-def remove_background(input_url):
-    remove_bg = True
+def remove_background(input_pil, remove_bg):
+    
     # Create a temporary folder for downloaded and processed images
     temp_dir = tempfile.mkdtemp()
-
-    image_path = os.path.join(temp_dir, 'input_image.png')
     unique_id = str(uuid.uuid4())
-    removed_bg_path = os.path.join(temp_dir, f'output_image_rmbg_{unique_id}.png')
-    
+    image_path = os.path.join(temp_dir, f'input_image_{unique_id}.png')  
+       
     try:
         # Check if input_url is already a PIL Image
-        if isinstance(input_url, Image.Image):
-            image = input_url
+        if isinstance(input_pil, Image.Image):
+            image = input_pil
         else:
             # Otherwise, assume it's a file path and open it
-            image = Image.open(input_url)
+            image = Image.open(input_pil)
+        
+        # Flip the image horizontally
+        image = image.transpose(Image.FLIP_LEFT_RIGHT)
         
         # Save the resized image
         image.save(image_path)
@@ -61,6 +62,7 @@ def remove_background(input_url):
 
     if remove_bg is True:
         # Run background removal
+        removed_bg_path = os.path.join(temp_dir, f'output_image_rmbg_{unique_id}.png')
         try:            
             img = Image.open(image_path)    
             result = remove(img)
@@ -110,12 +112,12 @@ def run_inference(temp_dir, removed_bg_path):
     except subprocess.CalledProcessError as e:
         return f"Error during inference: {str(e)}"
 
-def process_image(input_url):
+def process_image(input_pil, remove_bg):
 
     torch.cuda.empty_cache()
     
     # Remove background
-    result = remove_background(input_url)
+    result = remove_background(input_pil, remove_bg)
     
     if isinstance(result, str) and result.startswith("Error"):
         raise gr.Error(f"{result}")  # Return the error message if something went wrong
@@ -166,8 +168,11 @@ def gradio_interface():
                     image_mode="RGBA",
                     height=240
                 )
+
+                remove_bg = gr.Checkbox(label="Need to remove BG ?", value=False)
             
                 submit_button = gr.Button("Process")
+                
                 gr.Examples(
                     examples = examples_folder,
                     inputs = [input_image],
@@ -176,7 +181,7 @@ def gradio_interface():
 
             output_video= gr.Video(label="Output Video", scale=4)
 
-        submit_button.click(process_image, inputs=[input_image], outputs=[output_video])
+        submit_button.click(process_image, inputs=[input_image, remove_bg], outputs=[output_video])
 
     return app
 
