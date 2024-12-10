@@ -159,7 +159,7 @@ def gradio_interface():
 			</a>
         </div>
         """)
-        with gr.Group()
+        with gr.Group():
             with gr.Row():  
                 with gr.Column(scale=2):
                     
