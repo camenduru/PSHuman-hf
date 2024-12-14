@@ -52,7 +52,7 @@ unet_from_pretrained_kwargs:
 
 recon_opt:
   res_path: out
-  save_glb: False
+  save_glb: true
   # camera setting
   num_view: 6
   scale: 4

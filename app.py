@@ -107,8 +107,28 @@ def run_inference(temp_dir, removed_bg_path):
         
         # Retrieve the file name without the extension
         removed_bg_file_name = os.path.splitext(os.path.basename(removed_bg_path))[0]
-        output_videos = glob(os.path.join(f"out/{removed_bg_file_name}", "*.mp4"))
-        return output_videos
+
+        # List objects in the "out" folder
+        out_folder_path = "out"
+        out_folder_objects = os.listdir(out_folder_path)
+        print(f"Objects in '{out_folder_path}':")
+        for obj in out_folder_objects:
+            print(f" - {obj}")
+        
+        # List objects in the "out/{removed_bg_file_name}" folder
+        specific_out_folder_path = os.path.join(out_folder_path, removed_bg_file_name)
+        if os.path.exists(specific_out_folder_path) and os.path.isdir(specific_out_folder_path):
+            specific_out_folder_objects = os.listdir(specific_out_folder_path)
+            print(f"\nObjects in '{specific_out_folder_path}':")
+            for obj in specific_out_folder_objects:
+                print(f" - {obj}")
+        else:
+            print(f"\nThe folder '{specific_out_folder_path}' does not exist.")
+        
+        output_video = glob(os.path.join(f"out/{removed_bg_file_name}", "*.mp4"))
+        output_objects = glob(os.path.join(f"out/{removed_bg_file_name}", "*.obj"))
+        return output_video, output_objects
+    
     except subprocess.CalledProcessError as e:
         return f"Error during inference: {str(e)}"
 
@@ -125,7 +145,7 @@ def process_image(input_pil, remove_bg):
     removed_bg_path, temp_dir = result  # Unpack only if successful
 
     # Run inference
-    output_video = run_inference(temp_dir, removed_bg_path)
+    output_video, output_objects = run_inference(temp_dir, removed_bg_path)
 
     if isinstance(output_video, str) and output_video.startswith("Error"):
         shutil.rmtree(temp_dir)
@@ -135,7 +155,7 @@ def process_image(input_pil, remove_bg):
     shutil.rmtree(temp_dir)  # Cleanup temporary folder
     print(output_video)
     torch.cuda.empty_cache()
-    return output_video[0]
+    return output_video[0], output_objects[0], output_objects[1]
 
 css="""
 div#col-container{
@@ -177,14 +197,18 @@ def gradio_interface():
                             label="Image input", 
                             type="pil",
                             image_mode="RGBA",
-                            height=240
+                            height=480
                         )
         
                         remove_bg = gr.Checkbox(label="Need to remove BG ?", value=False)
                     
                         submit_button = gr.Button("Process")
-        
-                    output_video= gr.Video(label="Output Video", scale=4, elem_id="video-out-elm")
+                    
+                    with gr.Column(scale=4):
+                        output_video= gr.Video(label="Output Video", elem_id="video-out-elm")
+                        with gr.Row():
+                            output_object_mesh = gr.Model3D(label=".OBJ Mesh", height=240)
+                            output_object_color = gr.Model3D(label=".OBJ colored", height=240)
     
             gr.Examples(
                 examples = examples_folder,
@@ -192,7 +216,7 @@ def gradio_interface():
                 examples_per_page = 11
             )
 
-        submit_button.click(process_image, inputs=[input_image, remove_bg], outputs=[output_video])
+        submit_button.click(process_image, inputs=[input_image, remove_bg], outputs=[output_video, output_object_mesh, output_object_color])
 
     return app
 

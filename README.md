@@ -1,6 +1,6 @@
 ---
 title: PSHuman
-emoji: 🏃‍➡️
+emoji: 🏃
 colorFrom: indigo
 colorTo: pink
 sdk: gradio
